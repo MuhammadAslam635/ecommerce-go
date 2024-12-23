@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"githum.com/muhammadAslam/ecommerce/controllers"
 	"githum.com/muhammadAslam/ecommerce/database"
 	"githum.com/muhammadAslam/ecommerce/middleware"
@@ -13,6 +14,10 @@ import (
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
 	// Print to indicate the application started
 	fmt.Println("Hello, World!")
 
@@ -39,7 +44,7 @@ func main() {
 	router.POST("/login", controllers.Login())
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "Welcome to the E-commerce API",
+			"message": os.Getenv("APP_NAME"),
 		})
 	})
 
